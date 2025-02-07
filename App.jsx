@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, useLocation } from "react-router-dom";
+import Nav from "./Component/Navbar";
+import Footer from "./Component/Footer";
+import Home from "./assets/Pages/Home";
+import About from "./assets/Pages/About";
+import Display from "./assets/Pages/Display";
+import Insert from "./assets/Pages/Insert";
+import Update from "./assets/Pages/Update";
+import Search from "./assets/Pages/Search"; // Fixed import path
+import EmpEdit from "./assets/Pages/EmpEdit";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const location = useLocation();
+
+  // Define routes that should not have Nav and Footer
+  const noNavFooterRoutes = [
+    "/update",
+    "/display",
+    "/insert",
+    "/search",
+    "/empedit/:id",
+  ];
+
+  // Determine whether to show Nav and Footer based on the current route
+  const shouldShowNavFooter = !noNavFooterRoutes.includes(location.pathname);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      {shouldShowNavFooter && <Nav />}
 
-export default App
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="display" element={<Display />} />
+          <Route path="insert" element={<Insert />} />
+          <Route path="update" element={<Update />} />
+          <Route path="search" element={<Search />} />
+          <Route path="empedit/:id" element={<EmpEdit />} />
+        </Routes>
+      </main>
+
+      {shouldShowNavFooter && <Footer />}
+    </>
+  );
+};
+
+export default App;
