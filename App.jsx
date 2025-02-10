@@ -1,22 +1,14 @@
-import PropTypes from "prop-types";
-import Comp1 from "./Comp1";
-import Comp2 from "./Comp2";
-import Comp3 from "./Comp3";
-
-const App = ({ name = "teju", surname = "bisen", gender = "male" }) => {
+import UnAuth from "./UnAuth";
+import Auth from "./Auth";
+import { MylogContext } from "./LoginContext";
+import { useContext } from "react";
+const App = () => {
+  const { user } = useContext(MylogContext);
   return (
     <>
-      <Comp1 name={name} surname={surname} gender={gender} />
-      <Comp2 name={name} surname={surname} gender={gender} />
-      <Comp3 name={name} surname={surname} gender={gender} />
+      <h1>My login page</h1>
+      {user.auth ? <Auth /> : <UnAuth />}
     </>
   );
 };
-
-App.propTypes = {
-  name: PropTypes.string.isRequired,
-  surname: PropTypes.string.isRequired,
-  gender: PropTypes.string.isRequired,
-};
-
 export default App;
